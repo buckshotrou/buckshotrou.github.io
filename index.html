@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buckshot Roulette Calc</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  .container { width: 300px; margin: auto; padding-top: 50px; }
+  label, input, button { display: block; width: 100%; margin-bottom: 10px; }
+  input, button { padding: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <label for="liveRounds">Number of Live Rounds:</label>
+  <input type="number" id="liveRounds" min="0">
+
+  <label for="duds">Number of Duds:</label>
+  <input type="number" id="duds" min="0">
+
+  <button onclick="calculateProbabilities()">Calculate Probabilities</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+
+function calculateProbabilities() {
+  var liveRounds = document.getElementById('liveRounds').value;
+  var duds = document.getElementById('duds').value;
+
+  var totalChambers = parseInt(liveRounds) + parseInt(duds);
+  var probDudSelf = duds / totalChambers;
+  var probLiveNextTurn = liveRounds / (totalChambers - 1);
+
+  var probWinSelf = probDudSelf * probLiveNextTurn;
+  var probWinOpponent = 1 - (probDudSelf * probLiveNextTurn);
+  probWinSelf *= 100;
+  probWinOpponent *= 100;
+
+  document.getElementById('result').innerHTML = 
+    'Probability of winning by shooting yourself: ' + probWinSelf.toFixed(2) + '%' +
+    '<br>Probability of winning by shooting opponent: ' + probWinOpponent.toFixed(2) + '%';
+}
+
+
+</script>
+</body>
+</html>
